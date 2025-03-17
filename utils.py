@@ -50,8 +50,7 @@ def load_model(model_path):
     Returns:
         A YOLO object detection model.
     """
-    #model = YOLO(model_path)
-    model = YOLO("yolov8n.pt")
+    model = YOLO(model_path)
     return model
 
 
