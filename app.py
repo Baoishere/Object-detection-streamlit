@@ -60,13 +60,13 @@ else:
     st.error("Please Select Model in Sidebar")
 
 # load pretrained DL model
+st.write(f"🔍 Trying to load model from: {model_path}")
 try:
-    model = load_model(model_path)
-    model.to("cpu")
+    model = YOLO(str(model_path))  # Chuyển Path thành string
+    model.to("cpu")  # Chạy trên CPU
+    st.write("✅ Model loaded successfully!")
 except Exception as e:
-    st.error(f"Unable to load model. Please check the specified path: {model_path}")
-    import os
-    st.write(f"📁 Model exists: {os.path.exists(model_path)}")
+    st.error(f"❌ Error loading model: {e}")
 
 
 # image/video options
