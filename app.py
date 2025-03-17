@@ -11,20 +11,12 @@
 from pathlib import Path
 from PIL import Image
 import streamlit as st
+import os
+import torch
 from ultralytics import YOLO
 
 import config
-from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
-
-import os
-
-# model_path = "weights/detection/yolov8n.pt"  # Đường dẫn model
-# if os.path.exists(model_path):
-#     file_size = os.path.getsize(model_path) / (1024*1024)  # Đổi sang MB
-#     print(f"📏 Model Size: {file_size:.2f} MB")
-# else:
-#     print("❌ Model file not found!")
-
+from utils import infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
 
 # setting page layout
 st.set_page_config(
@@ -32,7 +24,7 @@ st.set_page_config(
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
-    )
+)
 
 # main page heading
 st.title("Interactive Interface for YOLOv8")
@@ -58,25 +50,22 @@ else:
 confidence = float(st.sidebar.slider(
     "Select Model Confidence", 30, 100, 50)) / 100
 
-model_path = ""
-if model_type:
-    model_path = Path(config.DETECTION_MODEL_DIR, str(model_type))
+model_path = "weights/detection/yolov8n.pt"
+
+# Kiểm tra model path
+if not os.path.exists(model_path):
+    st.error(f"❌ Model file not found at: {model_path}")
 else:
-    st.error("Please Select Model in Sidebar")
+    file_size = os.path.getsize(model_path) / (1024 * 1024)  # MB
+    st.write(f"📏 Model Size: {file_size:.2f} MB")
 
+# Load model YOLOv8
 try:
-    model_path = "weights/detection/yolov8n.pt"
-
-    # Load model với weights_only=False
-    model = torch.load(model_path, weights_only=False)  # ⚠️ Chỉ làm nếu file từ nguồn đáng tin cậy
-
-    # Hoặc sử dụng YOLO của Ultralytics
-    model = YOLO(model_path)  
+    model = YOLO(model_path)
     model.to("cpu")  # Chạy trên CPU
-    print("✅ Model loaded successfully!")
+    st.success("✅ Model loaded successfully!")
 except Exception as e:
-    print(f"❌ Error loading model: {e}")
-
+    st.error(f"❌ Error loading model: {e}")
 
 # image/video options
 st.sidebar.header("Image/Video Config")
@@ -86,13 +75,13 @@ source_selectbox = st.sidebar.selectbox(
 )
 
 source_img = None
-if source_selectbox == config.SOURCES_LIST[0]: # Image
+if source_selectbox == config.SOURCES_LIST[0]:  # Image
     infer_uploaded_image(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[1]: # Video
+elif source_selectbox == config.SOURCES_LIST[1]:  # Video
     infer_uploaded_video(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[2]: # Webcam
+elif source_selectbox == config.SOURCES_LIST[2]:  # Webcam
     infer_uploaded_webcam(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[3]: # RTSP Stream
+elif source_selectbox == config.SOURCES_LIST[3]:  # RTSP Stream
     infer_rtsp_stream(confidence, model)
 else:
     st.error("Currently only 'Image' and 'Video' source are implemented")
