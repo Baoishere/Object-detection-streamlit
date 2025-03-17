@@ -49,16 +49,15 @@ confidence = float(st.sidebar.slider(
 
 model_path = ""
 if model_type:
-    model_path = config.DETECTION_MODEL_DIR / model_type  # Cách nối đúng
+    model_path = Path(config.DETECTION_MODEL_DIR, str(model_type))
 else:
-    st.error("🚨 Please Select Model in Sidebar")
-    st.stop()  # Dừng chương trình nếu chưa chọn model
+    st.error("Please Select Model in Sidebar")
 
-# Kiểm tra model tồn tại không
-if not model_path.exists():
-    st.error(f"❌ Model file not found: {model_path}")
-    st.stop()
-
+# load pretrained DL model
+try:
+    model = load_model(model_path)
+except Exception as e:
+    st.error(f"Unable to load model. Please check the specified path: {model_path}")
 
 # image/video options
 st.sidebar.header("Image/Video Config")
