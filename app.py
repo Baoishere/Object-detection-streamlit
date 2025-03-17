@@ -11,12 +11,15 @@
 from pathlib import Path
 from PIL import Image
 import streamlit as st
-import os
-import torch
-from ultralytics import YOLO
 
 import config
-from utils import infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
+from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
+
+# import torch
+# import ultralytics
+# print(f"Torch version: {torch.__version__}")
+# print(f"CUDA available: {torch.cuda.is_available()}")
+# print(f"Ultralytics version: {ultralytics.__version__}")
 
 # setting page layout
 st.set_page_config(
@@ -24,7 +27,7 @@ st.set_page_config(
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
-)
+    )
 
 # main page heading
 st.title("Interactive Interface for YOLOv8")
@@ -50,22 +53,21 @@ else:
 confidence = float(st.sidebar.slider(
     "Select Model Confidence", 30, 100, 50)) / 100
 
-model = torch.load(model_path, weights_only=False)
-
-# Kiểm tra model path
-if not os.path.exists(model_path):
-    st.error(f"❌ Model file not found at: {model_path}")
+model_path = ""
+if model_type:
+    model_path = Path(config.DETECTION_MODEL_DIR, str(model_type))
 else:
-    file_size = os.path.getsize(model_path) / (1024 * 1024)  # MB
-    st.write(f"📏 Model Size: {file_size:.2f} MB")
+    st.error("Please Select Model in Sidebar")
 
-# Load model YOLOv8
+# load pretrained DL model
 try:
-    model = YOLO(model_path)
-    model.to("cpu")  # Chạy trên CPU
-    st.success("✅ Model loaded successfully!")
+    model = load_model(model_path)
+    model.to("cpu")
 except Exception as e:
-    st.error(f"❌ Error loading model: {e}")
+    st.error(f"Unable to load model. Please check the specified path: {model_path}")
+    import os
+    st.write(f"📁 Model exists: {os.path.exists(model_path)}")
+
 
 # image/video options
 st.sidebar.header("Image/Video Config")
@@ -75,13 +77,13 @@ source_selectbox = st.sidebar.selectbox(
 )
 
 source_img = None
-if source_selectbox == config.SOURCES_LIST[0]:  # Image
+if source_selectbox == config.SOURCES_LIST[0]: # Image
     infer_uploaded_image(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[1]:  # Video
+elif source_selectbox == config.SOURCES_LIST[1]: # Video
     infer_uploaded_video(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[2]:  # Webcam
+elif source_selectbox == config.SOURCES_LIST[2]: # Webcam
     infer_uploaded_webcam(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[3]:  # RTSP Stream
+elif source_selectbox == config.SOURCES_LIST[3]: # RTSP Stream
     infer_rtsp_stream(confidence, model)
 else:
     st.error("Currently only 'Image' and 'Video' source are implemented")
