@@ -16,11 +16,15 @@ from ultralytics import YOLO
 import config
 from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
 
-# import torch
-# import ultralytics
-# print(f"Torch version: {torch.__version__}")
-# print(f"CUDA available: {torch.cuda.is_available()}")
-# print(f"Ultralytics version: {ultralytics.__version__}")
+import os
+
+model_path = "weights/detection/yolov8n.pt"  # Đường dẫn model
+if os.path.exists(model_path):
+    file_size = os.path.getsize(model_path) / (1024*1024)  # Đổi sang MB
+    print(f"📏 Model Size: {file_size:.2f} MB")
+else:
+    print("❌ Model file not found!")
+
 
 # setting page layout
 st.set_page_config(
