@@ -50,7 +50,7 @@ else:
 confidence = float(st.sidebar.slider(
     "Select Model Confidence", 30, 100, 50)) / 100
 
-model_path = "weights/detection/yolov8n.pt"
+model = torch.load(model_path, weights_only=False)
 
 # Kiểm tra model path
 if not os.path.exists(model_path):
