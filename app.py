@@ -58,6 +58,10 @@ try:
     model = load_model(model_path)
 except Exception as e:
     st.error(f"Unable to load model. Please check the specified path: {model_path}")
+    import os
+    st.write(f"📁 Absolute model path: {os.path.abspath(model_path)}")
+    st.write(f"📁 Model exists: {model_path.exists()}")
+
 
 # image/video options
 st.sidebar.header("Image/Video Config")
