@@ -58,9 +58,13 @@ try:
     model = load_model(model_path)
 except Exception as e:
     st.error(f"Unable to load model. Please check the specified path: {model_path}")
-    import os
-    st.write(f"📁 Absolute model path: {os.path.abspath(model_path)}")
-    st.write(f"📁 Model exists: {model_path.exists()}")
+    import torch
+    import ultralytics
+   
+    print(f"Torch version: {torch.__version__}")
+    print(f"CUDA available: {torch.cuda.is_available()}")
+    print(f"Ultralytics version: {ultralytics.__version__}")
+
 
 
 # image/video options
