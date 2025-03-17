@@ -18,12 +18,12 @@ from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_
 
 import os
 
-model_path = "weights/detection/yolov8n.pt"  # Đường dẫn model
-if os.path.exists(model_path):
-    file_size = os.path.getsize(model_path) / (1024*1024)  # Đổi sang MB
-    print(f"📏 Model Size: {file_size:.2f} MB")
-else:
-    print("❌ Model file not found!")
+# model_path = "weights/detection/yolov8n.pt"  # Đường dẫn model
+# if os.path.exists(model_path):
+#     file_size = os.path.getsize(model_path) / (1024*1024)  # Đổi sang MB
+#     print(f"📏 Model Size: {file_size:.2f} MB")
+# else:
+#     print("❌ Model file not found!")
 
 
 # setting page layout
@@ -64,14 +64,18 @@ if model_type:
 else:
     st.error("Please Select Model in Sidebar")
 
-# load pretrained DL model
-st.write(f"🔍 Trying to load model from: {model_path}")
 try:
-    model = YOLO(str(model_path))  # Chuyển Path thành string
+    model_path = "weights/detection/yolov8n.pt"
+
+    # Load model với weights_only=False
+    model = torch.load(model_path, weights_only=False)  # ⚠️ Chỉ làm nếu file từ nguồn đáng tin cậy
+
+    # Hoặc sử dụng YOLO của Ultralytics
+    model = YOLO(model_path)  
     model.to("cpu")  # Chạy trên CPU
-    st.write("✅ Model loaded successfully!")
+    print("✅ Model loaded successfully!")
 except Exception as e:
-    st.error(f"❌ Error loading model: {e}")
+    print(f"❌ Error loading model: {e}")
 
 
 # image/video options
