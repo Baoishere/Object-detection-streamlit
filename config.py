@@ -32,7 +32,7 @@ SOURCES_LIST = ["Image", "Video", "Webcam", "RTSP Stream"]
 
 # DL model config
 DETECTION_MODEL_DIR = ROOT / 'weights' / 'detection'
-YOLOv8n = ROOT / "yolov8n.pt"
+YOLOv8n = DETECTION_MODEL_DIR / "yolov8n.pt"
 YOLOv8s = DETECTION_MODEL_DIR / "yolov8s.pt"
 YOLOv8m = DETECTION_MODEL_DIR / "yolov8m.pt"
 YOLOv8l = DETECTION_MODEL_DIR / "yolov8l.pt"
