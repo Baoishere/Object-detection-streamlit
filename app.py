@@ -15,6 +15,12 @@ import streamlit as st
 import config
 from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
 
+import torch
+import ultralytics
+print(f"Torch version: {torch.__version__}")
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"Ultralytics version: {ultralytics.__version__}")
+
 # setting page layout
 st.set_page_config(
     page_title="Interactive Interface for YOLOv8",
@@ -58,14 +64,6 @@ try:
     model = load_model(model_path)
 except Exception as e:
     st.error(f"Unable to load model. Please check the specified path: {model_path}")
-    import torch
-    import ultralytics
-   
-    print(f"Torch version: {torch.__version__}")
-    print(f"CUDA available: {torch.cuda.is_available()}")
-    print(f"Ultralytics version: {ultralytics.__version__}")
-
-
 
 # image/video options
 st.sidebar.header("Image/Video Config")
