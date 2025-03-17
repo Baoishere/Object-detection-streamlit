@@ -49,8 +49,7 @@ confidence = float(st.sidebar.slider(
 
 model_path = ""
 if model_type:
-    #model_path = Path(config.DETECTION_MODEL_DIR, str(model_type))
-    model_path = Path(config.YOLOv8n)
+    model_path = Path(config.DETECTION_MODEL_DIR, str(model_type))
 else:
     st.error("Please Select Model in Sidebar")
 
