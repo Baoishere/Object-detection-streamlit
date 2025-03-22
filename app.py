@@ -71,7 +71,7 @@ source_selectbox = st.sidebar.selectbox(
 
 source_img = None
 if source_selectbox == config.SOURCES_LIST[0]: # Image
-    infer_uploaded_image(confidence, model = torch.load('yolov8n.pt', weights_only=False))
+    infer_uploaded_image(confidence, model = torch.load('https://github.com/Baoishere/Object-detection-streamlit/blob/main/yolov8n.pt', weights_only=False))
 elif source_selectbox == config.SOURCES_LIST[1]: # Video
     infer_uploaded_video(confidence, model)
 elif source_selectbox == config.SOURCES_LIST[2]: # Webcam
