@@ -13,6 +13,7 @@ import streamlit as st
 import cv2
 from PIL import Image
 import tempfile
+import torch
 
 
 def _display_detected_frames(conf, model, st_frame, image):
