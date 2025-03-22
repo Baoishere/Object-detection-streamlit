@@ -38,34 +38,19 @@ def _display_detected_frames(conf, model, st_frame, image):
                    use_column_width=True
                    )
 
-model_url = "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt"
-
-model_path= "yolo11n.pt"
 @st.cache_resource
-def load_model():
-   if not os.path.exists(model_path):
-      st.info("dang tai model")
-      response = requests.get(model_url, stream=True)
-      with open(model_path, "wb") as f:
-         for chunk in response.iter_content(chunk_size=8192):
-            f.write(chunk)
-      st.success("da load model")
-   model = YOLO(model_path)
-   return model
+def load_model(model_path):
+    """
+    Loads a YOLO object detection model from the specified model_path.
 
-# @st.cache_resource
-# def load_model(model_path):
-#     """
-#     Loads a YOLO object detection model from the specified model_path.
+    Parameters:
+        model_path (str): The path to the YOLO model file.
 
-#     Parameters:
-#         model_path (str): The path to the YOLO model file.
-
-#     Returns:
-#         A YOLO object detection model.
-#     """
-#     model = YOLO(model_path)
-#     return model
+    Returns:
+        A YOLO object detection model.
+    """
+    model = YOLO(model_path)
+    return model
 
 
 def infer_uploaded_image(conf, model):
