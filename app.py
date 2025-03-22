@@ -13,6 +13,14 @@ from PIL import Image
 import streamlit as st
 from ultralytics import YOLO
 import torch
+from ultralytics.nn.tasks import torch_safe_load
+
+# Patch the torch_safe_load function
+def patched_torch_safe_load(weight):
+    return torch.load(weight, map_location='cpu', weights_only=True), weight
+
+# Replace the original function with the patched version
+torch_safe_load = patched_torch_safe_load
 
 from ultralytics.nn.tasks import DetectionModel
 
