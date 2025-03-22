@@ -69,7 +69,7 @@ source_selectbox = st.sidebar.selectbox(
 
 source_img = None
 if source_selectbox == config.SOURCES_LIST[0]: # Image
-    infer_uploaded_image(confidence, model = load_model("weights/detection/yolov8n.pt"))
+    infer_uploaded_image(confidence, model = load_model("weights/detection/yolov8n.pt", weights_only=True))
 elif source_selectbox == config.SOURCES_LIST[1]: # Video
     infer_uploaded_video(confidence, model)
 elif source_selectbox == config.SOURCES_LIST[2]: # Webcam
