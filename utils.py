@@ -50,7 +50,7 @@ def load_model(model_path):
     Returns:
         A YOLO object detection model.
     """
-   import torch
+    import torch
     from ultralytics.nn.tasks import torch_safe_load
       
       # Patch the torch_safe_load function
