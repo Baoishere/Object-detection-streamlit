@@ -15,6 +15,7 @@ from ultralytics import YOLO
 import torch
 import torch.serialization
 import _codecs
+import numpy as np
 torch.serialization.add_safe_globals([np.core.multiarray.scalar, np.dtype, np.dtypes.Float64DType, _codecs.encode])
 
 from ultralytics.nn.tasks import DetectionModel
