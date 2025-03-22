@@ -77,7 +77,6 @@ source_selectbox = st.sidebar.selectbox(
 )
 
 source_img = None
-model = YOLO('yolov8n.pt')
 # Determine the source and perform inference
 if source_selectbox == config.SOURCES_LIST[0]:  # Image
     infer_uploaded_image(confidence, model)
