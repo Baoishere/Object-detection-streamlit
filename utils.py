@@ -54,7 +54,7 @@ def load_model(model_path):
     return model
 torch.serialization.add_safe_globals([load_model])
 
-def infer_uploaded_image(conf, model):
+def infer_uploaded_image(conf):
     """
     Execute inference for uploaded image
     :param conf: Confidence of YOLOv8 model
@@ -81,8 +81,8 @@ def infer_uploaded_image(conf, model):
     if source_img:
         if st.button("Execution"):
             with st.spinner("Running..."):
-                res = model.predict(uploaded_image,
-                                    conf=conf)
+                # res = model.predict(uploaded_image,
+                #                     conf=conf)
                 boxes = res[0].boxes
                 res_plotted = res[0].plot()[:, :, ::-1]
 
