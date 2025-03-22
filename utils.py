@@ -41,7 +41,6 @@ def _display_detected_frames(conf, model, st_frame, image):
 model_url = "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt"
 
 model_path= "yolo11n.pt"
-@dataclass
 @st.cache_resource
 def load_model():
    if not os.path.exists(model_path):
