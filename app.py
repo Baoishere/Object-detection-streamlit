@@ -13,16 +13,6 @@ from PIL import Image
 import streamlit as st
 from ultralytics import YOLO
 import torch
-import torch.serialization
-import _codecs
-import numpy as np
-torch.serialization.add_safe_globals([np.core.multiarray.scalar, np.dtype, np.dtypes.Float64DType, _codecs.encode])
-
-from ultralytics.nn.tasks import DetectionModel
-
-# Add DetectionModel to the safe globals list
-torch.serialization.add_safe_globals([DetectionModel])
-
 import config
 from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
 # setting page layout
