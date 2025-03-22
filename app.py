@@ -70,13 +70,15 @@ source_selectbox = st.sidebar.selectbox(
 )
 
 source_img = None
-if source_selectbox == config.SOURCES_LIST[0]: # Image
-    infer_uploaded_image(confidence, model = torch.load('https://huggingface.co/Ultralytics/YOLOv8/resolve/main/yolov8n.pt', weights_only=False))
-elif source_selectbox == config.SOURCES_LIST[1]: # Video
+model = YOLO('yolov8n.pt')
+# Determine the source and perform inference
+if source_selectbox == config.SOURCES_LIST[0]:  # Image
+    infer_uploaded_image(confidence, model)
+elif source_selectbox == config.SOURCES_LIST[1]:  # Video
     infer_uploaded_video(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[2]: # Webcam
+elif source_selectbox == config.SOURCES_LIST[2]:  # Webcam
     infer_uploaded_webcam(confidence, model)
-elif source_selectbox == config.SOURCES_LIST[3]: # RTSP Stream
+elif source_selectbox == config.SOURCES_LIST[3]:  # RTSP Stream
     infer_rtsp_stream(confidence, model)
 else:
     st.error("Currently only 'Image' and 'Video' source are implemented")
