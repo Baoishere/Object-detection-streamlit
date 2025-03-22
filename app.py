@@ -14,6 +14,15 @@ import streamlit as st
 from ultralytics import YOLO
 import torch
 
+from ultralytics.nn.tasks import torch_safe_load
+
+# Patch the torch_safe_load function
+def patched_torch_safe_load(weight):
+    return torch.load(weight, map_location='cpu', weights_only=False), weight
+
+# Replace the original function with the patched version
+torch_safe_load = patched_torch_safe_load
+
 import config
 from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
 # setting page layout
