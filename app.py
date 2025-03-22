@@ -11,6 +11,7 @@
 from pathlib import Path
 from PIL import Image
 import streamlit as st
+from ultralytics import YOLO
 
 import config
 from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
