@@ -12,6 +12,7 @@ from pathlib import Path
 from PIL import Image
 import streamlit as st
 from ultralytics import YOLO
+import torch
 
 import config
 from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam, infer_rtsp_stream
@@ -70,7 +71,7 @@ source_selectbox = st.sidebar.selectbox(
 
 source_img = None
 if source_selectbox == config.SOURCES_LIST[0]: # Image
-    infer_uploaded_image(confidence, model = YOLO('yolov8n.pt'))
+    infer_uploaded_image(confidence, model = YOLO('yolov8n.pt', weights_only=False))
 elif source_selectbox == config.SOURCES_LIST[1]: # Video
     infer_uploaded_video(confidence, model)
 elif source_selectbox == config.SOURCES_LIST[2]: # Webcam
