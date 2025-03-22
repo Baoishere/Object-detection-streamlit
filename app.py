@@ -13,14 +13,7 @@ from PIL import Image
 import streamlit as st
 from ultralytics import YOLO
 import torch
-from ultralytics.nn.tasks import torch_safe_load
 
-# Patch the torch_safe_load function
-def patched_torch_safe_load(weight):
-    return torch.load(weight, map_location='cpu', weights_only=True), weight
-
-# Replace the original function with the patched version
-torch_safe_load = patched_torch_safe_load
 
 from ultralytics.nn.tasks import DetectionModel
 
@@ -70,6 +63,7 @@ else:
 
 # load pretrained DL model
 try:
+    torch.serialization.add_safe_globals([pytorch_lightning.callbacks.model_checkpoint.load_model])
     model = load_model(model_path)
 except Exception as e:
     st.error(f"Unable to load model. Please check the specified path: {model_path}")
