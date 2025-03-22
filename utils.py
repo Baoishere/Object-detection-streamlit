@@ -51,7 +51,7 @@ def load_model(model_path):
     """
     model = YOLO(model_path)
     return model
-
+torch.serialization.add_safe_globals([load_model])
 
 def infer_uploaded_image(conf, model):
     """
