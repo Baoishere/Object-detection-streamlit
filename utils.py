@@ -52,14 +52,13 @@ def load_model(model_path):
     """
     import torch
     from ultralytics.nn.tasks import torch_safe_load
-      
+    model = YOLO(model_path)
       # Patch the torch_safe_load function
     def patched_torch_safe_load(weight):
-       return torch.load(weight, map_location='cpu', weights_only=False), weight
+       return torch.load(model, map_location='cpu', weights_only=False), model
       
       # Replace the original function with the patched version
     torch_safe_load = patched_torch_safe_load
-    model = YOLO(model_path)
     return model
 
 def infer_uploaded_image(conf, model):
