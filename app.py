@@ -75,7 +75,7 @@ source_selectbox = st.sidebar.selectbox(
     "Select Source",
     config.SOURCES_LIST
 )
-model = model
+model = load_model(model_path)
 source_img = None
 # Determine the source and perform inference
 if source_selectbox == config.SOURCES_LIST[0]:  # Image
